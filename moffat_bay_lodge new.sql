@@ -13,15 +13,6 @@ CREATE TABLE Customer (
     created_at DATETIME
 );
 
-CREATE TABLE Rooms (
-	room_id INT AUTO_INCREMENT PRIMARY KEY,
-    room_number VARCHAR(10) UNIQUE NOT NULL,
-    room_type_id INT,
-    availability_status ENUM('available','booked','maintenance'),
-    photo_url VARCHAR(255),
-    FOREIGN KEY (room_type_id) REFERENCES Room_type(room_type_id)
-);
-
 CREATE TABLE Room_type (
 	room_type_id INT AUTO_INCREMENT PRIMARY KEY,
     type_name VARCHAR(50),
@@ -30,6 +21,15 @@ CREATE TABLE Room_type (
     max_occupancy INT, 
     photo_url VARCHAR(255)
 ); 
+
+CREATE TABLE Rooms (
+	room_id INT AUTO_INCREMENT PRIMARY KEY,
+    room_number VARCHAR(10) UNIQUE NOT NULL,
+    room_type_id INT,
+    availability_status ENUM('available','booked','maintenance'),
+    photo_url VARCHAR(255),
+    FOREIGN KEY (room_type_id) REFERENCES Room_type(room_type_id)
+);
 
 CREATE TABLE Reservation (
 	reservation_id INT AUTO_INCREMENT PRIMARY KEY, 
