@@ -1,0 +1,236 @@
+/* ------------------------------
+    GOOGLE FONTS (include in HTML head)
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+--------------------------------*/
+
+/* ------------------------------
+    ROOT VARIABLES
+--------------------------------*/
+:root {
+  --color-light-blue: #DEE7EC;
+  --color-deep-blue:  #00244B;
+  --color-green-blue: #708986;
+  --color-mauve:      #86627B;
+  --color-black:      #000;
+  --color-white:      #fff;
+
+  --font-logo: 'Allura', cursive;
+  --font-serif: 'Playfair Display', serif;
+
+  --font-size-base: 16px;
+  --line-height-base: 1.6;
+
+  --content-width: 1200px;
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+
+  --radius-md: 8px;
+
+  --shadow-soft: 0 3px 8px rgba(0,0,0,0.12);
+  --shadow-strong: 0 5px 20px rgba(0,0,0,0.20);
+}
+
+/* ------------------------------
+    GLOBAL BASE STYLES
+--------------------------------*/
+body {
+  margin: 0;
+  font-family: var(--font-serif);
+  line-height: var(--line-height-base);
+  background: var(--color-light-blue);
+  color: var(--color-black);
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  border-radius: var(--radius-md);
+}
+
+/* ------------------------------
+    HEADER & NAVIGATION
+--------------------------------*/
+header {
+  background: var(--color-deep-blue);
+  padding: var(--space-sm) 0;
+  box-shadow: var(--shadow-soft);
+}
+
+.lodge-logo {
+  font-family: var(--font-logo);
+  font-size: 3rem;
+  color: var(--color-light-blue);
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(var(--content-width), 95%);
+  margin: auto;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--color-light-blue);
+  font-weight: 500;
+}
+nav a:hover {
+  color: var(--color-mauve);
+}
+
+/* ------------------------------
+    HERO SECTION
+--------------------------------*/
+.hero {
+  position: relative;
+  height: 60vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 36, 75, 0.55);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--color-light-blue);
+  padding-top: 20vh;
+}
+
+.hero h1 {
+  font-family: var(--font-logo);
+  font-size: 4rem;
+}
+
+/* ------------------------------
+    LAYOUT
+--------------------------------*/
+.container {
+  width: min(var(--content-width), 95%);
+  margin: 0 auto;
+  padding: var(--space-lg) 0;
+}
+
+.columns-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+@media (max-width: 900px) {
+  .columns-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------
+    CARDS
+--------------------------------*/
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  transition: 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-strong);
+}
+
+.card-content {
+  padding: var(--space-md);
+}
+
+/* ------------------------------
+    BUTTONS
+--------------------------------*/
+.btn-primary {
+  background: var(--color-deep-blue);
+  color: var(--color-light-blue);
+  padding: var(--space-sm) var(--space-lg);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background: var(--color-mauve);
+}
+
+.btn-secondary {
+  background: var(--color-greenblue);
+  color: var(--color-white);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  border: none;
+}
+.btn-secondary:hover {
+  background: var(--color-mauve);
+}
+
+/* ------------------------------
+    FORMS (Login / Registration / Reservation)
+--------------------------------*/
+form {
+  background: var(--color-white);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  max-width: 500px;
+  margin: 3rem auto;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: var(--space-xs);
+  display: block;
+}
+
+input, select {
+  width: 100%;
+  padding: var(--space-sm);
+  margin-bottom: var(--space-md);
+  border: 1px solid var(--color-greenblue);
+  border-radius: var(--radius-md);
+}
+
+input:focus {
+  border-color: var(--color-mauve);
+  outline: none;
+}
+
+/* ------------------------------
+    FOOTER
+--------------------------------*/
+footer {
+  background: var(--color-deep-blue);
+  color: var(--color-light-blue);
+  text-align: center;
+  padding: var(--space-md) 0;
+  margin-top: var(--space-xl);
+}
