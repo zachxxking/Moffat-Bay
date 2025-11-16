@@ -38,3 +38,13 @@ MODIFY COLUMN password_hash VARCHAR(255) NOT NULL;
 -- 4. Ensure role column exists
 ALTER TABLE Staff
 MODIFY COLUMN role VARCHAR(50) NOT NULL;
+
+-- ========================================
+-- Add PasswordResets Table
+-- ========================================
+CREATE TABLE IF NOT EXISTS PasswordResets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL
+);
