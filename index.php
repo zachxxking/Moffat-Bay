@@ -4,7 +4,7 @@
 ----------------------------*/
 $host = "localhost";
 $user = "root";
-$pass = "Your Mysql DB"; // Put Your MySql Password Here
+$pass = ""; 
 $db   = "moffat_bay_lodge";
 
 $conn = new mysqli($host, $user, $pass, $db);
@@ -46,16 +46,15 @@ $staff_result = $conn->query($staff_sql);
             <li><a href="about.php">About</a></li>
             <li><a href="attractions.php">Attractions</a></li>
             <li><a href="lodging.php">Lodging</a></li>
-            <li><a href="contact.php">Contact</a></li>
         </ul>
 
         <!-- Right Side Login & Register Buttons -->
         <div style="display:flex; gap:10px;">
-            <a href="loginPage.php">
+            <a href="login.php">
                 <button class="btn-primary">Login</button>
             </a>
 
-            <a href="registerPage.php">
+            <a href="register.php">
                 <button class="btn-primary">Register</button>
             </a>
         </div>
