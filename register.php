@@ -1,4 +1,4 @@
-<!--Moffat Bay Lodge User Registration page-->
+<!-- Moffat Bay Lodge User Registration page -->
 <!DOCTYPE html>
 <html lang="en">
 <head> 
@@ -13,28 +13,47 @@
     <link rel="stylesheet" href="moffatbaycss.css">  
 </head>
 <body>
+<!-- Header / Nav -->
+<header>
+    <nav>
+        <a href="index.php" class="lodge-logo">Moffat Bay Lodge</a>
+        <ul>
+            <li><a href="about.php">About</a></li>
+            <li><a href="attractions.php">Attractions</a></li>
+            <li><a href="room_reservation.php">Lodging</a></li>
+        </ul>
+        <div style="display:flex; gap:10px;">
+            <a href="login.php"><button class="btn-primary">Login</button></a>
+            <a href="register.php"><button class="btn-primary">Register</button></a>
+        </div>
+    </nav>
+</header>
 
-            <!-- Registration Form -->
-    <form action="register_backend.php" method="POST">
-        <h2>User Registration</h2>
+<form action="register_backend.php" method="POST" class="form-card">
+    <h2>User Registration</h2>
 
-        <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required>
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name" required>
 
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required>
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" required>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
 
-        <label for="phone_number">Phone Number:</label>
-        <input type="text" id="phone_number" name="phone_number" required>
+    <label for="phone">Phone Number:</label>
+    <input type="text" id="phone" name="phone" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
 
-        <input type="submit" value="Register" class="btn-primary">
-    </form>
+    <input type="submit" value="Register" class="btn-primary">
+
+    <p style="text-align:center; margin-top:1rem;">
+        Already have an account? <a href="login.php">Login here</a> |
+        <a href="index.php">Home</a>
+    </p>
+</form>
 
 </body>
 </html>
