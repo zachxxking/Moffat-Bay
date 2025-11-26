@@ -1,24 +1,16 @@
 <?php
-/* ---------------------------
-   Database Connection
-----------------------------*/
-$host = "localhost";
-$user = "root";
-$pass = ""; 
-$db   = "moffat_bay_lodge";
+require_once 'db_connect.php';
+$conn = db_connect(); // PDO connection
 
-$conn = new mysqli($host, $user, $pass, $db);
-
-if ($conn->connect_error) {
-    die("DB Connection Failed: " . $conn->connect_error);
+// Fetch staff
+try {
+    $stmt = $conn->query("SELECT first_name, last_name, role FROM Staff");
+    $staff_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Database error: " . htmlspecialchars($e->getMessage()));
 }
-
-/* ---------------------------
-   Get Staff
-----------------------------*/
-$staff_sql = "SELECT first_name, last_name, role FROM Staff";
-$staff_result = $conn->query($staff_sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,28 +29,16 @@ $staff_result = $conn->query($staff_sql);
 <!-- Header / Nav -->
 <header>
     <nav>
-
-        <!-- Left Moffat Logo -->
         <a href="index.php" class="lodge-logo">Moffat Bay Lodge</a>
-
-        <!-- Center Nav Links -->
         <ul>
             <li><a href="about.php">About</a></li>
             <li><a href="attractions.php">Attractions</a></li>
-            <li><a href="lodging.php">Lodging</a></li>
+            <li><a href="room_reservation.php">Lodging</a></li>
         </ul>
-
-        <!-- Right Side Login & Register Buttons -->
         <div style="display:flex; gap:10px;">
-            <a href="login.php">
-                <button class="btn-primary">Login</button>
-            </a>
-
-            <a href="register.php">
-                <button class="btn-primary">Register</button>
-            </a>
+            <a href="login.php"><button class="btn-primary">Login</button></a>
+            <a href="register.php"><button class="btn-primary">Register</button></a>
         </div>
-
     </nav>
 </header>
 
@@ -75,17 +55,14 @@ $staff_result = $conn->query($staff_sql);
     <p>Our amazing team is here to make your stay unforgettable.</p>
 
     <div class="columns-3">
-
         <?php
-        if ($staff_result->num_rows > 0) {
-            while ($s = $staff_result->fetch_assoc()) {
-
-                $name = $s['first_name'] . " " . $s['last_name'];
-                $role = $s['role'];
+        if (!empty($staff_result)) {
+            foreach ($staff_result as $s) {
+                $name = htmlspecialchars($s['first_name'] . " " . $s['last_name']);
+                $role = htmlspecialchars($s['role']);
 
                 // Auto Role for Setting Images
                 $image = "images/default.jpg";
-
                 if ($role === "Maid") {
                     $image = "images/Maid.jpg";
                 } elseif ($role === "Maintenance") {
@@ -106,14 +83,12 @@ $staff_result = $conn->query($staff_sql);
             }
         }
         ?>
-
     </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
     <div class="container" style="text-align:left; display:grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
-
         <div>
             <h3>Use cases</h3>
             <p>UI design</p>
@@ -122,7 +97,6 @@ $staff_result = $conn->query($staff_sql);
             <p>Diagramming</p>
             <p>Brainstorming</p>
         </div>
-
         <div>
             <h3>Explore</h3>
             <p>Design</p>
@@ -131,7 +105,6 @@ $staff_result = $conn->query($staff_sql);
             <p>Design systems</p>
             <p>Collaboration features</p>
         </div>
-
         <div>
             <h3>Resources</h3>
             <p>Blog</p>
@@ -140,12 +113,10 @@ $staff_result = $conn->query($staff_sql);
             <p>Color wheel</p>
             <p>Support</p>
         </div>
-
     </div>
 
     <p style="margin-top: 2rem;">&copy; <?php echo date('Y'); ?> Moffat Bay Lodge. All Rights Reserved.</p>
 </footer>
-
 
 </body>
 </html>
