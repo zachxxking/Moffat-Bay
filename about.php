@@ -2,10 +2,7 @@
 /* ---------------------------
    Database Connection
 ----------------------------*/
-$host = "localhost";
-$user = "root";
-$pass = ""; 
-$db   = "moffat_bay_lodge";
+require_once 'db_connect.php';
 
 try {
     // Create PDO connection

@@ -2,16 +2,10 @@
 /* ---------------------------
    Database Connection
 ----------------------------*/
-$host = "localhost";
-$user = "root";
-$pass = ""; 
-$db   = "moffat_bay_lodge";
+require_once 'db_connect.php';
 
-$conn = new mysqli($host, $user, $pass, $db);
+$conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $dbuser, $dbpass);
 
-if ($conn->connect_error) {
-    die("DB Connection Failed: " . $conn->connect_error);
-}
 
 /* ---------------------------
    Get Staff
@@ -77,8 +71,8 @@ $staff_result = $conn->query($staff_sql);
     <div class="columns-3">
 
         <?php
-        if ($staff_result->num_rows > 0) {
-            while ($s = $staff_result->fetch_assoc()) {
+            if ($staff_result->rowCount() > 0) {
+                while ($s = $staff_result->fetch(PDO::FETCH_ASSOC)) {
 
                 $name = $s['first_name'] . " " . $s['last_name'];
                 $role = $s['role'];

@@ -82,6 +82,14 @@ CREATE TABLE Attractions (
     photo_url VARCHAR(255)
 );
 
+CREATE TABLE contact_messages (
+    message_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    message TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 
 INSERT INTO Customer (first_name, last_name, email, phone_number, password_hash, created_at) VALUES
 ('Jacob', 'Achenbach', 'jacobwachenbach@gmail.com', '444-3254', 'hash1', NOW()),

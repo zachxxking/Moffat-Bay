@@ -1,59 +1,64 @@
-<!--Moffat Bay Lodge User Registration Backend-->
 <?php
+// Moffat Bay Lodge User Registration Backend
 
 // Database connection parameters
-$host = "localhost";
-$dbname = "moffat_bay_lodge";
-$dbuser = "root";
-$password = "";
+require_once 'db_connect.php';
 
-// Create connection
-$conn = new PDO("mysql:host=$host;dbname=$dbname", $dbuser, $password);
+try {
+    // Create connection using PDO
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $dbuser, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Check if form was submitted
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    die("Invalid request method");
 }
 
 // Retrieve form data
-$first_name = $_POST['first_name'];
-$last_name = $_POST['last_name'];
-$email = $_POST['email'];
-$phone_number = $_POST['phone'];
-$password = $_POST['password'];
+$first_name = $_POST['first_name'] ?? '';
+$last_name = $_POST['last_name'] ?? '';
+$email = $_POST['email'] ?? '';
+$phone_number = $_POST['phone_number'] ?? '';
+$password = $_POST['password'] ?? '';
+
+// Validate required fields
+if (empty($first_name) || empty($last_name) || empty($email) || empty($password)) {
+    die("<h2>Error:</h2><p>All fields are required.</p>");
+}
+
+// Check for duplicate email BEFORE inserting
+$check = $conn->prepare("SELECT customer_id FROM Customer WHERE email = ?");
+$check->execute([$email]);
+
+if ($check->rowCount() > 0) {
+    die("<h2>Email already registered. Please use a different email.</h2>");
+}
 
 // Hash the password
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
-$sql = "INSERT INTO users (first_name, last_name, email, phone_number, password) VALUES (:first_name, :last_name, :email, :phone_number, :password_hash)";
+// Insert new user into Customer table
+$sql = "INSERT INTO Customer (first_name, last_name, email, phone_number, password_hash, created_at) 
+        VALUES (:first_name, :last_name, :email, :phone_number, :password_hash, NOW())";
 
-$stmt = $conn->prepare($sql);
-
-$stmt->bind_param("sssss", $first_name, $last_name, $email, $phone_number, $password_hash);
-
-// Execute the statement
-if ($stmt->execute()) {
+try {
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([
+        ':first_name' => $first_name,
+        ':last_name' => $last_name,
+        ':email' => $email,
+        ':phone_number' => $phone_number,
+        ':password_hash' => $password_hash
+    ]);
+    
     echo "<h2>You are registered!</h2>";
     echo "<p>Continue to <a href='login.php'>Login</a></p>";
-} else {
-    echo "<h2>Error:</h2>" . $stmt->error;
+} catch (PDOException $e) {
+    echo "<h2>Error:</h2><p>" . $e->getMessage() . "</p>";
 }
 
-$stmt->close();
-$conn->close(); 
-
-$check = $conn->prepare("SELECT customer_id FROM users WHERE email = ?");
-$check->bind_param("s", $email);
-$check->execute();
-$check->store_result();
-
-if ($check->num_rows > 0) {
-    echo "<h2>Email already registered. Please use a different email.</h2>";
-    $check->close();
-    $conn->close(); 
-    exit();
-} 
-$conn->close();
-    
+$conn = null;
 ?>
-
