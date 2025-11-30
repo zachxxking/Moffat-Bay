@@ -1,3 +1,9 @@
+<!-- 
+CSD460 Capstone - Red Team
+Contributors: Zachariah King, Ryan Monnier, Tabari Harvey, Jacob Achenbach
+Instructor: Sue Sampson
+Created October-December 2025
+-->
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
