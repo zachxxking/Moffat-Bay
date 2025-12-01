@@ -28,9 +28,24 @@ try {
 
     <!-- CSS -->
     <link rel="stylesheet" href="moffatbaycss.css">
+
+    <style>
+        /* Top-left fixed salmon logo */
+        #salmon-logo {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 60px;
+            height: auto;
+            z-index: 9999; /* keep it above everything else */
+        }
+    </style>
 </head>
 
 <body>
+
+<!-- FIXED TOP-LEFT LOGO -->
+<img src="images/salmon.png" alt="Salmon Logo" id="salmon-logo">
 
 <!-- Header / Nav -->
 <header>
@@ -104,25 +119,3 @@ try {
             <p>Brainstorming</p>
         </div>
         <div>
-            <h3>Explore</h3>
-            <p>Design</p>
-            <p>Prototyping</p>
-            <p>Development features</p>
-            <p>Design systems</p>
-            <p>Collaboration features</p>
-        </div>
-        <div>
-            <h3>Resources</h3>
-            <p>Blog</p>
-            <p>Best practices</p>
-            <p>Colors</p>
-            <p>Color wheel</p>
-            <p>Support</p>
-        </div>
-    </div>
-
-    <p style="margin-top: 2rem;">&copy; <?php echo date('Y'); ?> Moffat Bay Lodge. All Rights Reserved.</p>
-</footer>
-
-</body>
-</html>

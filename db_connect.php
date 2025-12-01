@@ -9,7 +9,7 @@ function db_connect() {
     $host = "localhost";
     $dbname = "moffat_bay_lodge";
     $dbuser = "root";
-    $dbpass = ""; // Your password here
+    $dbpass = "root"; // Your password here
 
     try {
         $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $dbuser, $dbpass);

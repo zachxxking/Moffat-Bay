@@ -94,6 +94,36 @@ $conn = db_connect(); // $conn is a PDO object
   </div>
 </section>
 
+<!-- LODGE CONTACT INFORMATION -->
+<section class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
+    <h2>Lodge Contact Information</h2>
+
+    <div style="font-size: 1.1rem; line-height: 1.6; max-width: 700px;">
+        <p><strong>Moffat Bay Lodge</strong></p>
+        <p>112 Marina View Drive<br>
+           Moffat Bay, Joviedsa Island, WA 98262</p>
+
+        <p><strong>Phone:</strong> (360) 555-4821</p>
+        <p><strong>Email:</strong> info@moffatbaylodge.com</p>
+
+        <p><strong>Front Desk Hours:</strong><br>
+           Sunday – Thursday: 7:00 AM – 9:00 PM<br>
+           Friday – Saturday: 7:00 AM – 11:00 PM
+        </p>
+
+        <p><strong>Marina Office:</strong> (360) 555-4877</p>
+
+        <p><strong>Emergency Line (On-Island Guests Only):</strong> (360) 555-0009</p>
+
+        <p><strong>Ferry Schedule Assistance:</strong><br>
+           Reach out 24/7 for help arranging transport to Joviedsa Island.</p>
+
+        <p>
+            Moffat Bay Lodge and Marina operate under the guidance of the
+            <em>San Juan Islands First Nations Development Committee</em>.
+        </p>
+    </div>
+</section>
 <!-- CONTACT US -->
 <section class="container">
   <h2>Contact Us</h2>

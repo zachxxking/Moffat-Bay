@@ -166,9 +166,12 @@ CREATE TABLE `Reservation` (
 --
 
 INSERT INTO `Reservation` (`reservation_id`, `customer_id`, `room_id`, `check_in_date`, `check_out_date`, `num_guests`, `total_price`, `status`, `created_at`) VALUES
-(1, 1, 1, '2025-07-08', '2025-07-11', 2, 230.00, 'Pending', '2025-11-22 19:35:07'),
-(2, 2, 2, '2025-07-14', '2025-07-18', 4, 460.00, 'Confirmed', '2025-11-22 19:35:07'),
-(3, 3, 3, '2025-11-25', '2025-11-28', 2, 600.00, 'Cancelled', '2025-11-22 19:35:07');
+(1, 1, 1, '2025-07-08', '2025-07-11', 2, 230.00, 'Pending', '2025-11-16 18:40:34'),
+(2, 2, 2, '2025-07-14', '2025-07-18', 4, 460.00, 'Confirmed', '2025-11-16 18:40:34'),
+(3, 3, 3, '2025-11-25', '2025-11-28', 2, 600.00, 'Cancelled', '2025-11-16 18:40:34'),
+(4, 8, 3, '2024-06-10', '2024-06-12', 2, 300.00, 'Confirmed', '2024-06-12 10:00:00'),
+(6, 16, 8, '2024-03-23', '2026-04-05', 1, 222900.00, 'Pending', '2025-11-24 03:12:02'),
+(7, 8, 1, '2026-02-02', '2026-03-03', 1, 3654.00, 'Pending', '2025-11-30 23:02:01');
 
 -- --------------------------------------------------------
 
@@ -213,10 +216,10 @@ CREATE TABLE `Room_type` (
 --
 
 INSERT INTO `Room_type` (`room_type_id`, `type_name`, `description`, `price_per_night`, `max_occupancy`, `photo_url`) VALUES
-(1, 'Family room', 'Room with two queen-sized bed', 138.86, 4, 'faimilyroom.jpg'),
-(2, 'Queen room', 'Room with a queen-sized bed', 120.75, 2, 'queenroom.jpg'),
-(3, 'King room', 'Room with a king-sized bed & living space', 315.00, 1, 'kingroom.jpg');
-
+(1, 'Double full beds', 'Room with two full-sized beds', 126.00, 4, 'doublefull.jpg'),
+(2, 'Queen', 'Room with a queen-sized bed', 141.75, 2, 'queenroom.jpg'),
+(3, 'Double queen beds', 'Room with two queen-sized beds', 157.50, 4, 'doublequeen.jpg'),
+(4, 'King', 'Room with a king-sized bed', 168.00, 2, 'kingroom.jpg');
 -- --------------------------------------------------------
 
 --
