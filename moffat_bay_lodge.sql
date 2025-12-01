@@ -57,13 +57,13 @@ INSERT INTO `Attractions` (`attraction_id`, `attraction_name`, `description`, `d
 -- Table structure for table `contact_messages`
 --
 
-CREATE TABLE `contact_messages` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    created_at DATETIME NOT NULL
+);
 
 --
 -- Dumping data for table `contact_messages`
