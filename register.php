@@ -31,7 +31,7 @@ Created October-December 2025
        <ul>
            <li><a href="about.php">About</a></li>
            <li><a href="attractions.php">Attractions</a></li>
-           <li><a href="room_reservation.php">Lodging</a></li>
+           <li><a href="lodging.php">Lodging</a></li>
        </ul>
 
        <div style="display:flex; gap:10px;">

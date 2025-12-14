@@ -81,7 +81,7 @@ if (isset($_POST['calculate_price']) && $selected_room_type && $check_in && $che
         <ul>
             <li><a href="about.php">About</a></li>
             <li><a href="attractions.php">Attractions</a></li>
-            <li><a href="room_reservation.php">Lodging</a></li>
+            <li><a href="lodging.php">Lodging</a></li>
             <?php if (isset($_SESSION['customer_id'])): ?>
                 <li><a href="dashboard_customer.php">Dashboard</a></li>
             <?php endif; ?>
