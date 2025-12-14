@@ -1,19 +1,14 @@
-<?php
-/* ---------------------------
-   Database Connection
-----------------------------*/
-$host = "localhost";
-$user = "root";
-$pass = ""; 
-$db   = "moffat_bay_lodge";
+<!-- 
+CSD460 Capstone - Red Team
+Contributors: Zachariah King, Ryan Monnier, Tabari Harvey, Jacob Achenbach
+Instructor: Sue Sampson
+Created October-December 2025
+-->
 
-try {
-    // Create PDO connection
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $dbuser, $dbpass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
+<?php
+// Include the shared PDO connection
+require_once 'db_connect.php';
+$conn = db_connect(); // $conn is a PDO object
 ?>
 
 <!DOCTYPE html>
@@ -29,34 +24,26 @@ try {
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="moffatbaycss.css"> 
 </head>
-
 <body>
 
 <!-- Header / Nav -->
 <header>
-    <nav>
+   <nav>
+       <div class="nav-left">
+           <img src="images/salmon.png" alt="Salmon Logo" class="salmon-logo">
+           <a href="index.php" class="lodge-logo">Moffat Bay Lodge</a>
+       </div>
 
-        <!-- Left Moffat Logo -->
-        <a href="index.php" class="lodge-logo">Moffat Bay Lodge</a>
+       <ul>
+           <li><a href="about.php">About</a></li>
+           <li><a href="attractions.php">Attractions</a></li>
+           <li><a href="room_reservation.php">Lodging</a></li>
+       </ul>
 
-        <!-- Center Nav Links -->
-        <ul>
-            <li><a href="about.php">About</a></li>
-            <li><a href="attractions.php">Attractions</a></li>
-            <li><a href="lodging.php">Lodging</a></li>
-        </ul>
-
-        <!-- Right Side Login & Register Buttons -->
-        <div style="display:flex; gap:10px;">
-            <a href="login.php">
-                <button class="btn-primary">Login</button>
-            </a>
-
-            <a href="register.php">
-                <button class="btn-primary">Register</button>
-            </a>
-        </div>
-
+       <div style="display:flex; gap:10px;">
+            <a href="login.php"><button class="btn-primary">Login</button></a>
+            <a href="register.php"><button class="btn-primary">Register</button></a>
+       </div>
     </nav>
 </header>
 
@@ -72,21 +59,19 @@ try {
 <section class="container">
   <h2>Our Story</h2>
   <p>
-Nestled in the serene shores of the breathtaking Moffat Bay, our five-star lodge stands strong as a reliable retreat for anyone seeking comfort, adventure, and everything in between. What started as an annual family vacation has grown into a beloved sanctuary for visitors from all over the globe! We pride ourselves in being the best at everything, but especially to our vital guests, so if you have any concerns you may need to address, please use our Contact Us form below.
+    Nestled in the serene shores of the breathtaking Moffat Bay, our five-star lodge stands strong as a reliable retreat for anyone seeking comfort, adventure, and everything in between. What started as an annual family vacation has grown into a beloved sanctuary for visitors from all over the globe! We pride ourselves in being the best at everything, but especially to our vital guests, so if you have any concerns you may need to address, please use our Contact Us form below.
   </p>
 </section>
 
 <!-- HISTORY SECTION -->
 <section class="container">
   <h2>History of the Lodge</h2>
-
   <div class="columns-3">
     <div class="card">
       <img src="images/history1.jpg" alt="Historic Lodge Photo">
       <div class="card-content">
         <h3>Early Beginnings</h3>
         <p>
-          <!-- Replace with real text -->
           The original cabin was built in the early 1960s by the Goodwin family. They were immediately drawn to the bay’s natural beauty and abundant wildlife from having the best of both worlds (the mountains and the sea).
         </p>
       </div>
@@ -97,8 +82,7 @@ Nestled in the serene shores of the breathtaking Moffat Bay, our five-star lodge
       <div class="card-content">
         <h3>Life on the Water</h3>
         <p>
-          Fishing and boating made Moffat Bay a lively gathering place long
-          before it became a modern oasis.
+          Fishing and boating made Moffat Bay a lively gathering place long before it became a modern oasis.
         </p>
       </div>
     </div>
@@ -108,25 +92,54 @@ Nestled in the serene shores of the breathtaking Moffat Bay, our five-star lodge
       <div class="card-content">
         <h3>Preserved Tradition</h3>
         <p>
-          Through careful restoration and considerate expansion, the lodge has maintained its rustic
-          charm while offering supreme contemporary comfort.
+          Through careful restoration and considerate expansion, the lodge has maintained its rustic charm while offering supreme contemporary comfort.
         </p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- LODGE CONTACT INFORMATION -->
+<section class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
+    <h2>Lodge Contact Information</h2>
+
+    <div style="font-size: 1.1rem; line-height: 1.6; max-width: 700px;">
+        <p><strong>Moffat Bay Lodge</strong></p>
+        <p>112 Marina View Drive<br>
+           Moffat Bay, Joviedsa Island, WA 98262</p>
+
+        <p><strong>Phone:</strong> (360) 555-4821</p>
+        <p><strong>Email:</strong> info@moffatbaylodge.com</p>
+
+        <p><strong>Front Desk Hours:</strong><br>
+           Sunday – Thursday: 7:00 AM – 9:00 PM<br>
+           Friday – Saturday: 7:00 AM – 11:00 PM
+        </p>
+
+        <p><strong>Marina Office:</strong> (360) 555-4877</p>
+
+        <p><strong>Emergency Line (On-Island Guests Only):</strong> (360) 555-0009</p>
+
+        <p><strong>Ferry Schedule Assistance:</strong><br>
+           Reach out 24/7 for help arranging transport to Joviedsa Island.</p>
+
+        <p>
+            Moffat Bay Lodge and Marina operate under the guidance of the
+            <em>San Juan Islands First Nations Development Committee</em>.
+        </p>
+    </div>
+</section>
 <!-- CONTACT US -->
 <section class="container">
   <h2>Contact Us</h2>
 
   <?php if (isset($_GET['success'])): ?>
-  <div style="background:#c8e6c9;color:#2e7d32;padding:1rem;border-radius:8px;text-lign:center;margin-bottom:1.5rem;">
-  Your message has been sent successfully!
+  <div style="background:#c8e6c9;color:#2e7d32;padding:1rem;border-radius:8px;text-align:center;margin-bottom:1.5rem;">
+    Your message has been sent successfully!
   </div>
   <?php endif; ?>
 
-  <form class="contact-form" action="send-message.php" method="POST">
+  <form class="contact-form" action="send_message.php" method="POST">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" placeholder="Your Name" required>
 
