@@ -1,59 +1,61 @@
-<!--Moffat Bay Lodge User Registration Backend-->
+<!-- 
+CSD460 Capstone - Red Team
+Contributors: Zachariah King, Ryan Monnier, Tabari Harvey, Jacob Achenbach
+Instructor: Sue Sampson
+Created October-December 2025
+-->
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Database connection parameters
-$host = "localhost";
-$dbname = "moffat_bay_lodge";
-$dbuser = "root";
-$password = "";
+session_start();
 
-// Create connection
-$conn = new PDO("mysql:host=$host;dbname=$dbname", $dbuser, $password);
+// Use shared PDO connection
+require_once 'db_connect.php';
+$conn = db_connect(); 
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Retrieve form data safely
+$first_name   = trim($_POST['first_name']   ?? '');
+$last_name    = trim($_POST['last_name']    ?? '');
+$email        = trim($_POST['email']        ?? '');
+$phone        = trim($_POST['phone']        ?? '');
+$password_raw = $_POST['password']          ?? '';
+
+if (!$first_name || !$last_name || !$email || !$password_raw) {
+    die("Missing required fields. <a href='register.php'>Go Back</a>");
 }
 
-// Retrieve form data
-$first_name = $_POST['first_name'];
-$last_name = $_POST['last_name'];
-$email = $_POST['email'];
-$phone_number = $_POST['phone'];
-$password = $_POST['password'];
+// Hash password
+$password_hash = password_hash($password_raw, PASSWORD_DEFAULT);
 
-// Hash the password
-$password_hash = password_hash($password, PASSWORD_DEFAULT);
+try {
+    // Check if email already exists
+    $check = $conn->prepare("SELECT customer_id FROM Customer WHERE email = ?");
+    $check->execute([$email]);
 
-$sql = "INSERT INTO users (first_name, last_name, email, phone_number, password) VALUES (:first_name, :last_name, :email, :phone_number, :password_hash)";
+    if ($check->rowCount() > 0) {
+        die("<h2>Email already registered. <a href='register.php'>Try again</a></h2>");
+    }
 
-$stmt = $conn->prepare($sql);
+    // Insert new customer
+    $stmt = $conn->prepare("
+        INSERT INTO Customer 
+        (first_name, last_name, email, phone_number, password_hash, created_at)
+        VALUES (?, ?, ?, ?, ?, NOW())
+    ");
 
-$stmt->bind_param("sssss", $first_name, $last_name, $email, $phone_number, $password_hash);
+    $stmt->execute([
+        $first_name,
+        $last_name,
+        $email,
+        $phone,
+        $password_hash
+    ]);
 
-// Execute the statement
-if ($stmt->execute()) {
     echo "<h2>You are registered!</h2>";
     echo "<p>Continue to <a href='login.php'>Login</a></p>";
-} else {
-    echo "<h2>Error:</h2>" . $stmt->error;
+
+} catch (PDOException $e) {
+    die("Database error: " . htmlspecialchars($e->getMessage()));
 }
-
-$stmt->close();
-$conn->close(); 
-
-$check = $conn->prepare("SELECT customer_id FROM users WHERE email = ?");
-$check->bind_param("s", $email);
-$check->execute();
-$check->store_result();
-
-if ($check->num_rows > 0) {
-    echo "<h2>Email already registered. Please use a different email.</h2>";
-    $check->close();
-    $conn->close(); 
-    exit();
-} 
-$conn->close();
-    
 ?>
-
