@@ -1,3 +1,9 @@
+<!-- 
+CSD460 Capstone - Red Team
+Contributors: Zachariah King, Ryan Monnier, Tabari Harvey, Jacob Achenbach
+Instructor: Sue Sampson
+Created October-December 2025
+-->
 <?php
 session_start();
 ?>
@@ -40,6 +46,10 @@ session_start();
     </form>
 
 </div>
+<!-- FOOTER -->
+<footer>
+    <p>&copy; <?php echo date('Y'); ?> Moffat Bay Lodge. All rights reserved.</p>
+</footer>
 
 </body>
 </html>
