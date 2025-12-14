@@ -4,8 +4,10 @@ Contributors: Zachariah King, Ryan Monnier, Tabari Harvey, Jacob Achenbach
 Instructor: Sue Sampson
 Created October-December 2025
 -->
+
 <?php
-// reservation_backend.php
+// reservation_backend.php (Improved)
+// CSD460 Capstone - Red Team
 session_start();
 require_once 'db_connect.php';
 
@@ -33,13 +35,12 @@ $last = $customer['last_name'];
 $email = $customer['email'];
 $phone = $customer['phone_number'] ?? '';
 
-// Collect form inputs
+// Collect and validate form inputs
 $room_type_id = intval($_POST['room_type'] ?? 0);
 $checkin = trim($_POST['check_in'] ?? '');
 $checkout = trim($_POST['check_out'] ?? '');
 $guests = intval($_POST['guests'] ?? 0);
 
-// Validation
 if (!$room_type_id || !$checkin || !$checkout || !$guests) {
     die("<p style='max-width:600px;margin:20px auto;color:#900'>All fields are required. <a href='room_reservation.php'>Go back</a></p>");
 }
@@ -48,19 +49,18 @@ if ($checkout <= $checkin) {
     die("<p style='max-width:600px;margin:20px auto;color:#900'>Check-out must be after check-in. <a href='room_reservation.php'>Go back</a></p>");
 }
 
-// Convert dates and calculate nights
 $checkin_dt = new DateTime($checkin);
 $checkout_dt = new DateTime($checkout);
 $nights = $checkin_dt->diff($checkout_dt)->days;
+
 if ($nights <= 0) {
     die("<p style='max-width:600px;margin:20px auto;color:#900'>Invalid dates provided. <a href='room_reservation.php'>Go back</a></p>");
 }
 
 try {
-    // Start transaction
     $conn->beginTransaction();
 
-    // Get room info by ID
+    // Get room type info
     $stmt = $conn->prepare("SELECT type_name, price_per_night, max_occupancy FROM Room_type WHERE room_type_id = ?");
     $stmt->execute([$room_type_id]);
     $room_type_info = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -73,26 +73,28 @@ try {
     $price_per_night = $room_type_info['price_per_night'];
     $max_occupancy = $room_type_info['max_occupancy'];
 
-    // Check guests against max occupancy
     if ($guests > $max_occupancy) {
         throw new Exception("Number of guests exceeds room occupancy limit ($max_occupancy).");
     }
 
-    // Find available room of this type
+    // Check for available room using NOT EXISTS
     $roomQuery = "
         SELECT r.room_id
         FROM Rooms r
-        LEFT JOIN Reservation res ON r.room_id = res.room_id
-            AND ((:checkin < res.check_out_date) AND (:checkout > res.check_in_date))
         WHERE r.room_type_id = :room_type_id
-        AND r.availability_status = 'available'
+        AND NOT EXISTS (
+            SELECT 1
+            FROM Reservation res
+            WHERE res.room_id = r.room_id
+            AND (:checkin < res.check_out_date AND :checkout > res.check_in_date)
+        )
         LIMIT 1
     ";
     $stmt = $conn->prepare($roomQuery);
     $stmt->execute([
+        ':room_type_id' => $room_type_id,
         ':checkin' => $checkin,
-        ':checkout' => $checkout,
-        ':room_type_id' => $room_type_id
+        ':checkout' => $checkout
     ]);
     $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -111,20 +113,18 @@ try {
     $created_at = date('Y-m-d H:i:s');
 
     $insRes = $conn->prepare("
-        INSERT INTO Reservation (customer_id, room_id, check_in_date, check_out_date, num_guests, total_price, status, created_at)
+        INSERT INTO Reservation 
+        (customer_id, room_id, check_in_date, check_out_date, num_guests, total_price, status, created_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ");
     $insRes->execute([$customer_id, $room_id, $checkin, $checkout, $guests, $total_price, $status, $created_at]);
     $reservation_id = $conn->lastInsertId();
 
-    // Update room status to booked
-    $upd = $conn->prepare("UPDATE Rooms SET availability_status = 'booked' WHERE room_id = ?");
-    $upd->execute([$room_id]);
-
     $conn->commit();
 
     // Show confirmation
-    echo "<!doctype html><html><head><meta charset='utf-8'><title>Reservation Confirmed</title><link rel='stylesheet' href='moffatbaycss.css'></head><body>";
+    echo "<!doctype html><html><head><meta charset='utf-8'><title>Reservation Confirmed</title>
+          <link rel='stylesheet' href='moffatbaycss.css'></head><body>";
     echo "<div class='container' style='max-width:800px;margin:40px auto;'><div class='card'><div class='card-content'>";
     echo "<h2>Reservation Confirmed</h2>";
     echo "<p>Thanks, <strong>" . htmlspecialchars($first) . " " . htmlspecialchars($last) . "</strong>.</p>";
