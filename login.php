@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!-- 
 CSD460 Capstone - Red Team
 Contributors: Zachariah King, Ryan Monnier, Tabari Harvey, Jacob Achenbach
@@ -16,6 +19,24 @@ Created October-December 2025
 <body>
 
 <div class="container">
+    <?php if (isset($_GET['registered'])): ?>
+        <div class="success-message">
+            Account created sucessfully! Please Log in.
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] == 'invalid'):?>
+        <div class="error-message">
+            Invalid email or password. Please try again.
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] == 'notfound'): ?>
+        <div class="error-message">
+            Email not found. Please register for an account.
+        </div>
+    <?php endif; ?>
+
     <form action="login_backend.php" method="POST">
         <h2 style="text-align:center;">Login</h2>
 

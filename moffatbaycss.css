@@ -232,6 +232,27 @@ input:focus {
 }
 
 /* ------------------------------
+    STATUS MESSAGES Login/Registration
+--------------------------------*/
+.success-message {
+  background: var(--color-green-blue);
+  color: var(--color-white);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.error-message {
+  background: var(--color-mauve);
+  color: var(--color-white);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+/* ------------------------------
     FOOTER
 --------------------------------*/
 footer {

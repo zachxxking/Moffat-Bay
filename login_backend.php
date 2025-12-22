@@ -33,7 +33,7 @@ try {
             $_SESSION['user_type'] = 'staff';
             $_SESSION['user_name'] = $user['first_name'];
 
-            header("Location: dashboard_staff.php");
+            header("Location: login.php?error=invalid");
             exit();
         } else {
             die("Incorrect password for staff. <a href='login.php'>Try again</a>");
@@ -61,7 +61,7 @@ try {
             $_SESSION['user_type'] = 'customer';
             $_SESSION['user_name'] = $user['first_name'];
 
-            header("Location: dashboard_customer.php");
+            header("Location: login.php?error=invalid"); 
             exit();
         } else {
             die("Incorrect password for customer. <a href='login.php'>Try again</a>");
