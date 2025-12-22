@@ -1,24 +1,23 @@
+<!-- 
+CSD460 Capstone - Red Team
+Contributors: Zachariah King, Ryan Monnier, Tabari Harvey, Jacob Achenbach
+Instructor: Sue Sampson
+Created October-December 2025
+-->
 <?php
-/* ---------------------------
-   Database Connection
-----------------------------*/
-$host = "localhost";
-$user = "root";
-$pass = ""; 
-$db   = "moffat_bay_lodge";
+session_start(); // <-- Start session for login check
+require_once 'db_connect.php';
+$conn = db_connect(); // PDO connection
 
-$conn = new mysqli($host, $user, $pass, $db);
-
-if ($conn->connect_error) {
-    die("DB Connection Failed: " . $conn->connect_error);
+// Fetch staff
+try {
+    $stmt = $conn->query("SELECT first_name, last_name, role FROM Staff");
+    $staff_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Database error: " . htmlspecialchars($e->getMessage()));
 }
-
-/* ---------------------------
-   Get Staff
-----------------------------*/
-$staff_sql = "SELECT first_name, last_name, role FROM Staff";
-$staff_result = $conn->query($staff_sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,35 +29,34 @@ $staff_result = $conn->query($staff_sql);
 
     <!-- CSS -->
     <link rel="stylesheet" href="moffatbaycss.css">
+
 </head>
 
 <body>
 
 <!-- Header / Nav -->
 <header>
-    <nav>
+   <nav>
+       <div class="nav-left">
+           <img src="images/salmon.png" alt="Salmon Logo" class="salmon-logo">
+           <a href="index.php" class="lodge-logo">Moffat Bay Lodge</a>
+       </div>
 
-        <!-- Left Moffat Logo -->
-        <a href="index.php" class="lodge-logo">Moffat Bay Lodge</a>
+       <ul>
+           <li><a href="about.php">About</a></li>
+           <li><a href="attractions.php">Attractions</a></li>
+           <li><a href="lodging.php">Lodging</a></li>
+       </ul>
 
-        <!-- Center Nav Links -->
-        <ul>
-            <li><a href="about.php">About</a></li>
-            <li><a href="attractions.php">Attractions</a></li>
-            <li><a href="lodging.php">Lodging</a></li>
-        </ul>
-
-        <!-- Right Side Login & Register Buttons -->
-        <div style="display:flex; gap:10px;">
-            <a href="login.php">
-                <button class="btn-primary">Login</button>
-            </a>
-
-            <a href="register.php">
-                <button class="btn-primary">Register</button>
-            </a>
-        </div>
-
+       <div style="display:flex; gap:10px; align-items:center;">
+            <?php if (!isset($_SESSION['user_id'])): ?>
+                <a href="login.php"><button class="btn-primary">Login</button></a>
+                <a href="register.php"><button class="btn-primary">Register</button></a>
+            <?php else: ?>
+                <span style="color:white; font-weight:bold;">Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</span>
+                <a href="logout.php"><button class="btn-secondary">Logout</button></a>
+            <?php endif; ?>
+       </div>
     </nav>
 </header>
 
@@ -71,21 +69,18 @@ $staff_result = $conn->query($staff_sql);
 
 <!-- STAFF SECTION -->
 <div class="container">
-    <h2>Meet Our Staff</h2>
+    <h2>Are you ready for next-level paradise?!</h2>
     <p>Our amazing team is here to make your stay unforgettable.</p>
 
     <div class="columns-3">
-
         <?php
-        if ($staff_result->num_rows > 0) {
-            while ($s = $staff_result->fetch_assoc()) {
-
-                $name = $s['first_name'] . " " . $s['last_name'];
-                $role = $s['role'];
+        if (!empty($staff_result)) {
+            foreach ($staff_result as $s) {
+                $name = htmlspecialchars($s['first_name'] . " " . $s['last_name']);
+                $role = htmlspecialchars($s['role']);
 
                 // Auto Role for Setting Images
                 $image = "images/default.jpg";
-
                 if ($role === "Maid") {
                     $image = "images/Maid.jpg";
                 } elseif ($role === "Maintenance") {
@@ -106,46 +101,13 @@ $staff_result = $conn->query($staff_sql);
             }
         }
         ?>
-
     </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-    <div class="container" style="text-align:left; display:grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
-
-        <div>
-            <h3>Use cases</h3>
-            <p>UI design</p>
-            <p>UX design</p>
-            <p>Wireframing</p>
-            <p>Diagramming</p>
-            <p>Brainstorming</p>
-        </div>
-
-        <div>
-            <h3>Explore</h3>
-            <p>Design</p>
-            <p>Prototyping</p>
-            <p>Development features</p>
-            <p>Design systems</p>
-            <p>Collaboration features</p>
-        </div>
-
-        <div>
-            <h3>Resources</h3>
-            <p>Blog</p>
-            <p>Best practices</p>
-            <p>Colors</p>
-            <p>Color wheel</p>
-            <p>Support</p>
-        </div>
-
-    </div>
-
-    <p style="margin-top: 2rem;">&copy; <?php echo date('Y'); ?> Moffat Bay Lodge. All Rights Reserved.</p>
+    <p>&copy; <?php echo date('Y'); ?> Moffat Bay Lodge. All rights reserved.</p>
 </footer>
-
 
 </body>
 </html>

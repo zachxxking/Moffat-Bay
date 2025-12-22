@@ -1,3 +1,10 @@
+/* 
+CSD460 Capstone - Red Team
+Contributors: Zachariah King, Ryan Monnier, Tabari Harvey, Jacob Achenbach
+Instructor: Sue Sampson
+Created October-December 2025
+*/
+
 /* ------------------------------
     GOOGLE FONTS (include in HTML head)
     <link href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
@@ -77,6 +84,17 @@ nav {
   align-items: center;
   width: min(var(--content-width), 95%);
   margin: auto;
+}
+
+.nav-left .salmon-logo {
+    width: 50px;
+    max-width: 100%;   /* ensures it never overflows */
+    height: auto;
+}
+@media (max-width: 600px) {
+    .nav-left .salmon-logo {
+        width: 40px;   /* smaller on mobile */
+    }
 }
 
 nav ul {
@@ -222,6 +240,27 @@ input, select {
 input:focus {
   border-color: var(--color-mauve);
   outline: none;
+}
+
+/* ------------------------------
+    STATUS MESSAGES Login/Registration
+--------------------------------*/
+.success-message {
+  background: var(--color-green-blue);
+  color: var(--color-white);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.error-message {
+  background: var(--color-mauve);
+  color: var(--color-white);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  text-align: center;
+  margin-bottom: var(--space-md);
 }
 
 /* ------------------------------
